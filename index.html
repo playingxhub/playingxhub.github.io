@@ -1,270 +1,278 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Playing X HUB</title>
-    <script src="https://conductivebreeds.com/cd/70/32/cd7032a8b678222cc77091a772fce303.js"></script>
-    <link rel="icon" type="image/x-icon" href="https://videy.co/favicon.ico" />
+    <title>Watch on Videy - Free and Simple Video Hosting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="icon" href="https://videy.co/favicon.ico">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: Inter, Arial, sans-serif;
+            background: #ffffff;
+            color: #111;
+        }
         body {
-            background: #000;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+        }
+
+        /* ================= HEADER ================= */
+        .main-header {
+            width: 100%;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 14px 16px;
+            display: flex;
             align-items: center;
-            padding: 0;
-            margin: 0;
-            font-family: sans-serif;
+            justify-content: space-between;
         }
-        .player-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #111;
         }
-        .video-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .header-upload-btn {
+            background: #111827;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .header-upload-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 100%;
-            height: 100%;
+        }
+
+        /* ================= VIDEO ================= */
+        .video-page {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 28px 16px 12px;
+        }
+        .video-card {
+            width: 860px;
+            max-width: 100%;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.12);
+            overflow: hidden;
+        }
+        .video-inner {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
             background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        video, iframe {
+        .video-inner video {
             width: 100%;
             height: 100%;
-            border: none;
-            display: block;
             object-fit: contain;
-        }
-        .click-area {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 10;
-            display: none;
-            cursor: pointer;
-        }
-        .click-area.active {
             display: block;
         }
         .video-error-msg {
-            color: #fff;
-            font-size: 16px;
+            color: #ffffff;
+            font-size: 15px;
             text-align: center;
             padding: 20px;
-            z-index: 20;
-        }
-        .action-buttons {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 30;
+            background: #1a1a1a;
+            width: 100%;
+            height: 100%;
             display: flex;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
         }
-        .btn {
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 14px;
-            border-radius: 20px;
+
+        /* ================= SHARE BUTTON ================= */
+        .share-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 24px;
+        }
+        .share-btn {
+            border: none;
+            background: #f3f4f6;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-            backdrop-filter: blur(5px);
-            transition: all 0.2s ease;
+            transition: background 0.2s, color 0.2s;
         }
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .share-btn:hover {
+            background: #e5e7eb;
+        }
+        .share-btn.copied {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            border-top: 1px solid #f1f1f1;
+            padding: 18px 0 22px;
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        footer a {
+            color: inherit;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= MOBILE ================= */
+        @media (max-width: 768px) {
+            .video-card {
+                border-radius: 10px;
+                box-shadow: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="player-container">
-        <div class="video-wrapper" id="videoContainer">
-            <video id="video" controls playsinline autoplay preload="auto">
-                <source src="" type="video/mp4">
-            </video>
-        </div>
 
-        <!-- Overlay klik iklan (aktif setelah timer) -->
-        <div id="clickArea" class="click-area"></div>
+<script async="async" data-cfasync="false" src="https://conductivebreeds.com/4ae3afb5944db27871dfab89559982f9/invoke.js"></script>
+<div id="container-4ae3afb5944db27871dfab89559982f9"></div>
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="#" class="header-title">videy</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="video-page">
+        <div class="video-card">
+            <div class="video-inner" id="playerWrapper">
+                <video
+                    id="video"
+                    controls
+                    preload="metadata"
+                    playsinline
+                    webkit-playsinline
+                    controlsList="nodownload noplaybackrate">
+                    Browser Anda tidak mendukung pemutaran video.
+                </video>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // --- KONFIGURASI REDIREKSI & CDN ---
-        const URL_REDIRECCION = "https://t.co/CGcmPrFHsh";
-        const TIEMPO_REQUERIDO = 2;
-        const baseUrl = "https://cdn2.videy.co/";
+    <div class="share-wrap">
+        <button class="share-btn" id="shareBtn">⬆ Bagikan Video</button>
+    </div>
+</main>
 
-        // --- ELEMEN DOM ---
-        const video = document.getElementById("video");
-        const videoContainer = document.getElementById("videoContainer");
-        const clickArea = document.getElementById("clickArea");
-        const shareBtn = document.getElementById("shareBtn");
-        const downloadBtn = document.getElementById("downloadBtn");
+<footer>
+    <a href="#">Terms of Service</a> · <a href="#">Report Abuse</a>
+</footer>
 
-        // --- LOAD VIDEO DARI PARAMETER URL (?id=KODE_VIDEO) ---
-        const params = new URLSearchParams(window.location.search);
-        const VIDEO_ID = params.get("id") || "";
+<!-- Histats.com START (async) -->
+<script type="text/javascript">
+    var _Hasync = _Hasync || [];
+    _Hasync.push(['Histats.start', '1,4992245,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+        var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+        hs.src = ('//s10.histats.com/js15_as.js');
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();
+</script>
+<noscript>
+    <a href="/" target="_blank"><img src="//sstatic1.histats.com/0.gif?4992245&101" alt="" border="0"></a>
+</noscript>
+<!-- Histats.com END -->
 
-        function showError(message) {
-            if (video) video.style.display = "none";
-            const errorDiv = document.createElement("div");
-            errorDiv.className = "video-error-msg";
-            errorDiv.innerText = message;
-            videoContainer.appendChild(errorDiv);
-        }
+<!-- ================= VIDEO SCRIPT ================= -->
+<script>
+    const video = document.getElementById('video');
+    const playerWrapper = document.getElementById('playerWrapper');
+    const shareBtn = document.getElementById('shareBtn');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
 
-        function loadVideo(extension = ".mp4") {
-            if (!VIDEO_ID) {
-                showError("ID video tidak ditemukan. Gunakan format URL: ?id=KODE_VIDEO");
-                return;
+    function showErrorMessage(message) {
+        if (video) video.style.display = 'none';
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'video-error-msg';
+        errorDiv.innerText = message;
+        playerWrapper.appendChild(errorDiv);
+    }
+
+    if (!id) {
+        showErrorMessage('ID video tidak ditemukan pada URL.');
+    } else {
+        const base = 'https://cdn.videy.co/' + id;
+        video.src = base + '.mp4';
+
+        video.onerror = () => {
+            if (!video.dataset.fallback) {
+                video.dataset.fallback = '1';
+                video.src = base + '.mov';
+            } else {
+                showErrorMessage('Video tidak dapat diputar atau tidak ditemukan.');
             }
-            const source = baseUrl + VIDEO_ID + extension;
-            video.src = source;
-            video.load();
-        }
+        };
+    }
 
-        if (VIDEO_ID) {
-            loadVideo(".mp4");
-
-            video.onloadedmetadata = () => {
-                if (downloadBtn) {
-                    downloadBtn.href = video.src;
-                    downloadBtn.style.display = "inline-flex";
-                }
-            };
-
-            video.onerror = () => {
-                if (!video.dataset.triedFallback) {
-                    video.dataset.triedFallback = "true";
-                    loadVideo(".mov");
-                } else {
-                    showError("Video tidak ditemukan atau format tidak didukung.");
-                    if (downloadBtn) downloadBtn.style.display = "none";
-                }
-            };
+    /* SHARE FUNCTIONALITY (Tanpa alert) */
+    shareBtn.onclick = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                url: window.location.href
+            }).catch(() => {});
         } else {
-            showError("Silakan masukkan ID Video pada parameter URL (?id=KODE_VIDEO).");
-        }
-
-        // --- LOGIKA IKLAN / REDIREKSI ---
-        let tiempoCumplido = false;
-        let yaRedirigido = false;
-        let timerIniciado = false;
-
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                location.reload();
-            }
-        });
-
-        function redirigirAlAnuncio() {
-            if (yaRedirigido) return;
-            yaRedirigido = true;
-            if (URL_REDIRECCION && URL_REDIRECCION !== '#') {
-                window.location.href = URL_REDIRECCION;
-            }
-        }
-
-        video.addEventListener('ended', function() {
-            redirigirAlAnuncio();
-        });
-
-        function iniciarTimer() {
-            if (timerIniciado) return;
-            timerIniciado = true;
-
-            let segundosRestantes = TIEMPO_REQUERIDO;
-            const intervalo = setInterval(() => {
-                if (segundosRestantes > 0) {
-                    segundosRestantes--;
-                    if (segundosRestantes === 0) {
-                        clearInterval(intervalo);
-                        tiempoCumplido = true;
-                        if (clickArea) clickArea.classList.add('active');
-                    }
-                }
-            }, 1000);
-        }
-
-        video.addEventListener('play', function() {
-            iniciarTimer();
-        });
-
-        if (!video.paused) {
-            iniciarTimer();
-        }
-
-        if (clickArea) {
-            clickArea.addEventListener('click', function(e) {
-                if (tiempoCumplido) {
-                    redirigirAlAnuncio();
-                }
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const originalText = shareBtn.innerText;
+                shareBtn.innerText = '✓ Tautan Disalin!';
+                shareBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    shareBtn.innerText = originalText;
+                    shareBtn.classList.remove('copied');
+                }, 2000);
             });
         }
-
-        video.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-
-        // Autoplay Fallback (Tombol Play Besar jika Browser Blok Autoplay)
-        video.play().catch(function(e) {
-            const msg = document.createElement('div');
-            msg.textContent = '▶︎';
-            msg.style.position = 'fixed';
-            msg.style.top = '50%';
-            msg.style.left = '50%';
-            msg.style.transform = 'translate(-50%, -50%)';
-            msg.style.background = 'rgba(0,0,0,0.7)';
-            msg.style.color = 'white';
-            msg.style.width = '70px';
-            msg.style.height = '70px';
-            msg.style.borderRadius = '50%';
-            msg.style.display = 'flex';
-            msg.style.alignItems = 'center';
-            msg.style.justifyContent = 'center';
-            msg.style.fontSize = '32px';
-            msg.style.zIndex = '100';
-            msg.style.cursor = 'pointer';
-            document.body.appendChild(msg);
-
-            msg.onclick = function() {
-                video.play();
-                msg.remove();
-            };
-        });
-
-        history.pushState(null, null, location.href);
-        window.addEventListener('popstate', function() {
-            history.pushState(null, null, location.href);
-        });
-    </script>
-
-   <!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
-<!-- Histats.com  END  -->
+    };
+</script>
 
 </body>
 </html>
