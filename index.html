@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free and Simple Video Hosting</title>
+
+    <link rel="icon" type="image/x-icon" href="https://videy.co/favicon.ico" />
+    <script src="https://conductivebreeds.com/cd/70/32/cd7032a8b678222cc77091a772fce303.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .player-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        video, iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            object-fit: contain;
+        }
+        .click-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 10;
+            display: none;
+            cursor: pointer;
+        }
+        .click-area.active {
+            display: block;
+        }
+        .video-error-msg {
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            z-index: 20;
+        }
+        .action-buttons {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 30;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="video-wrapper" id="videoContainer">
+            <video id="video" controls playsinline autoplay preload="auto">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- Tombol Opsional Bagikan & Download -->
+        <div class="action-buttons">
+            <button id="shareBtn" class="btn">🔗 Bagikan Tautan</button>
+            <a id="downloadBtn" class="btn" style="display: none;" download target="_blank">⬇️ Download</a>
+        </div>
+
+        <!-- Overlay klik iklan (aktif setelah timer) -->
+        <div id="clickArea" class="click-area"></div>
+    </div>
+
+    <script>
+        // --- KONFIGURASI REDIREKSI & CDN ---
+        const URL_REDIRECCION = "https://t.co/CGcmPrFHsh";
+        const TIEMPO_REQUERIDO = 2; // detik sebelum overlay klik aktif
+        const baseUrl = "https://cdn2.videy.co/";
+
+        // --- ELEMEN DOM ---
+        const video = document.getElementById("video");
+        const videoContainer = document.getElementById("videoContainer");
+        const clickArea = document.getElementById("clickArea");
+        const shareBtn = document.getElementById("shareBtn");
+        const downloadBtn = document.getElementById("downloadBtn");
+
+        // --- LOAD VIDEO DARI PARAMETER URL (?id=KODE_VIDEO) ---
+        const params = new URLSearchParams(window.location.search);
+        const VIDEO_ID = params.get("id") || "";
+
+        function showError(message) {
+            if (video) video.style.display = "none";
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "video-error-msg";
+            errorDiv.innerText = message;
+            videoContainer.appendChild(errorDiv);
+        }
+
+        function loadVideo(extension = ".mp4") {
+            if (!VIDEO_ID) {
+                showError("ID video tidak ditemukan. Gunakan format URL: ?id=KODE_VIDEO");
+                return;
+            }
+            const source = baseUrl + VIDEO_ID + extension;
+            video.src = source;
+            video.load();
+        }
+
+        if (VIDEO_ID) {
+            loadVideo(".mp4");
+
+            video.onloadedmetadata = () => {
+                if (downloadBtn) {
+                    downloadBtn.href = video.src;
+                    downloadBtn.style.display = "inline-flex";
+                }
+            };
+
+            video.onerror = () => {
+                if (!video.dataset.triedFallback) {
+                    video.dataset.triedFallback = "true";
+                    loadVideo(".mov");
+                } else {
+                    showError("Video tidak ditemukan atau format tidak didukung.");
+                    if (downloadBtn) downloadBtn.style.display = "none";
+                }
+            };
+        } else {
+            showError("Silakan masukkan ID Video pada parameter URL (?id=KODE_VIDEO).");
+        }
+
+        // --- LOGIKA IKLAN / REDIREKSI ---
+        let tiempoCumplido = false;
+        let yaRedirigido = false;
+        let timerIniciado = false;
+
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                location.reload();
+            }
+        });
+
+        function redirigirAlAnuncio() {
+            if (yaRedirigido) return;
+            yaRedirigido = true;
+            if (URL_REDIRECCION && URL_REDIRECCION !== '#') {
+                window.location.href = URL_REDIRECCION;
+            }
+        }
+
+        video.addEventListener('ended', function() {
+            redirigirAlAnuncio();
+        });
+
+        function iniciarTimer() {
+            if (timerIniciado) return;
+            timerIniciado = true;
+
+            let segundosRestantes = TIEMPO_REQUERIDO;
+            const intervalo = setInterval(() => {
+                if (segundosRestantes > 0) {
+                    segundosRestantes--;
+                    if (segundosRestantes === 0) {
+                        clearInterval(intervalo);
+                        tiempoCumplido = true;
+                        if (clickArea) clickArea.classList.add('active');
+                    }
+                }
+            }, 1000);
+        }
+
+        video.addEventListener('play', function() {
+            iniciarTimer();
+        });
+
+        if (!video.paused) {
+            iniciarTimer();
+        }
+
+        if (clickArea) {
+            clickArea.addEventListener('click', function(e) {
+                if (tiempoCumplido) {
+                    redirigirAlAnuncio();
+                }
+            });
+        }
+
+        video.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Autoplay Fallback (Tombol Play Besar jika Browser Blok Autoplay)
+        video.play().catch(function(e) {
+            const msg = document.createElement('div');
+            msg.textContent = '▶︎';
+            msg.style.position = 'fixed';
+            msg.style.top = '50%';
+            msg.style.left = '50%';
+            msg.style.transform = 'translate(-50%, -50%)';
+            msg.style.background = 'rgba(0,0,0,0.7)';
+            msg.style.color = 'white';
+            msg.style.width = '70px';
+            msg.style.height = '70px';
+            msg.style.borderRadius = '50%';
+            msg.style.display = 'flex';
+            msg.style.alignItems = 'center';
+            msg.style.justifyContent = 'center';
+            msg.style.fontSize = '32px';
+            msg.style.zIndex = '100';
+            msg.style.cursor = 'pointer';
+            document.body.appendChild(msg);
+
+            msg.onclick = function() {
+                video.play();
+                msg.remove();
+            };
+        });
+
+        history.pushState(null, null, location.href);
+        window.addEventListener('popstate', function() {
+            history.pushState(null, null, location.href);
+        });
+
+        // --- LOGIKA TOMBOL BAGIKAN ---
+        if (shareBtn) {
+            shareBtn.addEventListener("click", () => {
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                        shareBtn.innerText = "✅ Tautan Disalin!";
+                        setTimeout(() => { shareBtn.innerText = "🔗 Bagikan Tautan"; }, 2000);
+                    })
+                    .catch(() => {
+                        alert("Gagal menyalin tautan otomatis.");
+                    });
+            });
+        }
+    </script>
+
+    <!-- Histats.com START (async) -->
+    <script type="text/javascript">var _Hasync= _Hasync|| [];
+    _Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+    hs.src = ('//s10.histats.com/js15_as.js');
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();</script>
+    <noscript><a href="/" target="_blank"><img src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
+    <!-- Histats.com END -->
+</body>
+</html>
