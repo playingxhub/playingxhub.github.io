@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Videy – Pemutar Video Sederhana</title>
   <link rel="icon" type="image/x-icon" href="https://videy.co/favicon.ico" />
-
-  <script src="https://commandsister.com/2f/c8/4f/2fc84f1f9f65c6f180d6aa6cec16e367.js"></script>
-  <script src="https://commandsister.com/cd/70/32/cd7032a8b678222cc77091a772fce303.js"></script>
-
   <style>
     * {
       box-sizing: border-box;
@@ -28,7 +24,6 @@
       min-height: 100vh;
     }
 
-    /* Header Styles */
     .main-header {
       width: 100%;
       border-bottom: 1px solid #e5e7eb;
@@ -62,7 +57,6 @@
       text-decoration: none;
     }
 
-    /* Main Layout */
     .page-content {
       flex: 1;
       display: flex;
@@ -73,7 +67,7 @@
 
     .video-player-wrap {
       width: 100%;
-      padding: 24px 0;
+      padding: 24px 0 0;
       display: flex;
       justify-content: center;
     }
@@ -107,9 +101,8 @@
       position: absolute;
     }
 
-    /* Actions & Buttons */
     .video-actions {
-      margin-bottom: 16px;
+      margin: 16px 0;
       display: flex;
       gap: 12px;
       justify-content: center;
@@ -158,7 +151,81 @@
       text-align: center;
     }
 
-    /* Footer Styles */
+    .related {
+      width: 860px;
+      max-width: 100%;
+      margin: 8px auto 40px;
+    }
+
+    .related-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .related-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .rel-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .rel-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .rel-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111111;
+      overflow: hidden;
+    }
+
+    .rel-thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .rel-info {
+      padding: 10px 12px 12px;
+    }
+
+    .rel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rel-meta {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
     footer {
       text-align: center;
       padding: 32px 16px;
@@ -179,16 +246,36 @@
       color: #9ca3af;
       text-decoration: none;
     }
+
+    @media (max-width: 768px) {
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+    }
   </style>
 </head>
 <body>
-
   <header class="main-header">
     <div class="header-container">
       <a href="/" class="header-title">videy</a>
       <a href="#" class="header-upload">Upload Video</a>
     </div>
   </header>
+
+  <script async="async" data-cfasync="false" src="https://commandsister.com/4ae3afb5944db27871dfab89559982f9/invoke.js"></script>
+  <div id="container-4ae3afb5944db27871dfab89559982f9"></div>
 
   <main class="page-content">
     <div class="video-player-wrap">
@@ -202,10 +289,67 @@
       <a class="btn download-btn" id="downloadBtn" href="#">📥 Unduh Video</a>
     </div>
 
-    <div class="ad-container">
-      <script async="async" data-cfasync="false" src="https://commandsister.com/4ae3afb5944db27871dfab89559982f9/invoke.js"></script>
-      <div id="container-4ae3afb5944db27871dfab89559982f9"></div>
-    </div>
+    <section class="related" id="relatedWrap">
+      <div class="related-head">
+        <h2 class="related-title" data-i18n="upNext">Up next</h2>
+      </div>
+      <div class="related-grid" id="relatedGrid">
+        <a class="rel-card" href="?v=v86A4YYl1">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/v86A4YYl1.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@v86A4YYl1</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+        <a class="rel-card" href="?v=0CuuuZ6b1">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/0CuuuZ6b1.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@0CuuuZ6b1</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+        <a class="rel-card" href="?v=hLDfQUFB1">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/hLDfQUFB1.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@hLDfQUFB1</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+        <a class="rel-card" href="?v=Wecgd9VY1">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/Wecgd9VY1.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@Wecgd9VY1</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+        <a class="rel-card" href="?v=pYo0Co671">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/pYo0Co671.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@pYo0Co671</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+        <a class="rel-card" href="?v=zgSamcny1">
+          <div class="rel-thumb">
+            <video src="https://cdn2.videy.co/zgSamcny1.mp4#t=0.1" preload="metadata" muted playsinline></video>
+          </div>
+          <div class="rel-info">
+            <div class="rel-title">@zgSamcny1</div>
+            <div class="rel-meta">0 views · just now</div>
+          </div>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -219,14 +363,12 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const VIDEO_ID = params.get("id") || "";
-
+    const VIDEO_ID = params.get("id") || params.get("v") || "";
     const video = document.getElementById("video");
     const videoContainer = document.getElementById("videoContainer");
     const shareBtn = document.getElementById("shareBtn");
     const downloadBtn = document.getElementById("downloadBtn");
     const baseUrl = "https://cdn2.videy.co/";
-
     const ADSTERRA_DIRECT_LINK = "https://commandsister.com/yk0w4g8au?key=318dcdbf0c7a95fc20a761b18bbb0ce2";
 
     function showError(message) {
@@ -249,12 +391,10 @@
 
     if (VIDEO_ID) {
       loadVideo(".mp4");
-
       video.onloadedmetadata = () => {
         downloadBtn.href = video.src;
         downloadBtn.style.display = "inline-flex";
       };
-
       video.onerror = () => {
         if (!video.dataset.triedFallback) {
           video.dataset.triedFallback = "true";
@@ -268,19 +408,15 @@
       showError("Silakan masukkan ID Video pada parameter URL.");
     }
 
-    // Handlers
     downloadBtn.addEventListener("click", (e) => {
       e.preventDefault();
       const realVideoUrl = video.src;
       if (!realVideoUrl) return;
-
       window.open(ADSTERRA_DIRECT_LINK, "_blank");
-
       const a = document.createElement("a");
       a.href = realVideoUrl;
       a.download = VIDEO_ID + ".mp4";
       document.body.appendChild(a);
-
       setTimeout(() => {
         a.click();
         document.body.removeChild(a);
@@ -319,6 +455,5 @@
       <img src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0">
     </a>
   </noscript>
-
 </body>
 </html>
