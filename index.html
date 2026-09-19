@@ -1,459 +1,95 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Videy – Pemutar Video Sederhana</title>
-  <link rel="icon" type="image/x-icon" href="https://videy.co/favicon.ico" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, Arial, sans-serif;
-      background: #ffffff;
-      color: #111111;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .main-header {
-      width: 100%;
-      border-bottom: 1px solid #e5e7eb;
-      background: #ffffff;
-    }
-
-    .header-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 12px 16px;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .header-title {
-      font-size: 26px;
-      font-weight: 700;
-      color: #111111;
-      text-decoration: none;
-    }
-
-    .header-upload {
-      padding: 8px 20px;
-      background: #000000;
-      color: #ffffff;
-      border-radius: 9999px;
-      font-weight: 600;
-      font-size: 14px;
-      text-decoration: none;
-    }
-
-    .page-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 16px;
-    }
-
-    .video-player-wrap {
-      width: 100%;
-      padding: 24px 0 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    .video-box {
-      position: relative;
-      width: 860px;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000000;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000000;
-    }
-
-    .video-error-msg {
-      color: #9ca3af;
-      font-size: 14px;
-      text-align: center;
-      padding: 20px;
-      position: absolute;
-    }
-
-    .video-actions {
-      margin: 16px 0;
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 28px;
-      font-weight: 700;
-      font-size: 14px;
-      border-radius: 9999px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .share-btn {
-      background: #f3f4f6;
-      color: #111827;
-    }
-
-    .share-btn:hover {
-      background: #e5e7eb;
-    }
-
-    .download-btn {
-      background: #10b981;
-      color: #ffffff;
-      display: none;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
-    }
-
-    .download-btn:hover {
-      background: #059669;
-      transform: translateY(-1px);
-    }
-
-    .ad-container {
-      width: 860px;
-      max-width: 100%;
-      margin: 12px auto 24px;
-      text-align: center;
-    }
-
-    .related {
-      width: 860px;
-      max-width: 100%;
-      margin: 8px auto 40px;
-    }
-
-    .related-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .related-title {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 700;
-      color: #111827;
-    }
-
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .rel-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .rel-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .rel-thumb {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #111111;
-      overflow: hidden;
-    }
-
-    .rel-thumb video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      pointer-events: none;
-    }
-
-    .rel-info {
-      padding: 10px 12px 12px;
-    }
-
-    .rel-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #111827;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .rel-meta {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    footer {
-      text-align: center;
-      padding: 32px 16px;
-      color: #6b7280;
-      font-size: 13px;
-      border-top: 1px solid #e5e7eb;
-      margin-top: auto;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      margin-bottom: 12px;
-    }
-
-    .footer-link {
-      color: #9ca3af;
-      text-decoration: none;
-    }
-
-    @media (max-width: 768px) {
-      .related-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .related-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-links {
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="stylesheet" href="assets/watch.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="Watch video">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Watch">
+  <meta property="og:description" content="Watch video">
+  <meta property="og:image" content="/favicon.png">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <header class="main-header">
-    <div class="header-container">
-      <a href="#" class="header-title">videy</a>
-      <a href="#" class="header-upload">Upload Video</a>
+  <header class="hdr">
+    <div class="wrap">
+      <div class="hdr-row">
+        <a href="/" class="logo">SlimeDrive</a>
+      </div>
     </div>
   </header>
 
-  <script async="async" data-cfasync="false" src="https://commandsister.com/4ae3afb5944db27871dfab89559982f9/invoke.js"></script>
-  <div id="container-4ae3afb5944db27871dfab89559982f9"></div>
+  <main class="main">
+    <div id="player" class="player">
+      <video id="video" class="video" controls playsinline preload="metadata" controlslist="nodownload"></video>
+    </div>
 
-  <main class="page-content">
-    <div class="video-player-wrap">
-      <div class="video-box" id="videoContainer">
-        <video id="video" controls playsinline webkit-playsinline controlsList="nodownload"></video>
+    <div class="watch-meta-top">
+      <div>
+        <p class="vmeta"><span id="viewCount"></span> · <span id="uploadedAt"></span></p>
       </div>
     </div>
 
-    <div class="video-actions">
-      <button class="btn share-btn" id="shareBtn">🔗 Bagikan Tautan</button>
-      <a class="btn download-btn" id="downloadBtn" href="#">📥 Unduh Video</a>
+    <div class="info">
+      <div id="adminVideoPanel" class="admin-panel" hidden>
+        <div class="admin-panel-head">
+          <span>Admin video</span>
+        </div>
+        <div class="admin-grid">
+          <strong>Video ID:</strong> <span id="adminVidId">-</span>
+          <strong>Storage Key:</strong> <span id="adminStorageKey">-</span>
+          <strong>Total Views:</strong> <span id="adminViews">-</span>
+          <strong>Tanggal Upload:</strong> <span id="adminUploadedAt">-</span>
+          <strong>Direct URL:</strong> <a id="adminDirectLink" href="#" target="_blank">-</a>
+        </div>
+      </div>
     </div>
-
-    <section class="related" id="relatedWrap">
-      <div class="related-head">
-        <h2 class="related-title" data-i18n="upNext">Up next</h2>
-      </div>
-      <div class="related-grid" id="relatedGrid">
-        <a class="rel-card" href="?v=v86A4YYl1">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/v86A4YYl1.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@v86A4YYl1</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-        <a class="rel-card" href="?v=0CuuuZ6b1">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/0CuuuZ6b1.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@0CuuuZ6b1</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-        <a class="rel-card" href="?v=hLDfQUFB1">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/hLDfQUFB1.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@hLDfQUFB1</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-        <a class="rel-card" href="?v=Wecgd9VY1">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/Wecgd9VY1.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@Wecgd9VY1</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-        <a class="rel-card" href="?v=pYo0Co671">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/pYo0Co671.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@pYo0Co671</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-        <a class="rel-card" href="?v=zgSamcny1">
-          <div class="rel-thumb">
-            <video src="https://cdn2.videy.co/zgSamcny1.mp4#t=0.1" preload="metadata" muted playsinline></video>
-          </div>
-          <div class="rel-info">
-            <div class="rel-title">@zgSamcny1</div>
-            <div class="rel-meta">0 views · just now</div>
-          </div>
-        </a>
-      </div>
-    </section>
   </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="#" class="footer-link">Terms of Service</a>
-      <a href="#" class="footer-link">Privacy Policy</a>
-      <a href="#" class="footer-link">Report Abuse</a>
-    </div>
-    <div>© 2026 Videy – Simple & Free Video Hosting</div>
+  
+  <center>
+    <script>
+      atOptions = {
+        'key' : '5e70d9a300899e3713bf69bcbd85974d',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script src="https://commandsister.com/5e70d9a300899e3713bf69bcbd85974d/invoke.js"></script>
+  </center>
+  
+  <footer class="ftr">
+    <a href="/">All videos</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
   </footer>
 
+  <script src="assets/watch.js" defer></script>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const VIDEO_ID = params.get("id") || params.get("v") || "";
-    const video = document.getElementById("video");
-    const videoContainer = document.getElementById("videoContainer");
-    const shareBtn = document.getElementById("shareBtn");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const baseUrl = "https://cdn2.videy.co/";
-    const ADSTERRA_DIRECT_LINK = "https://commandsister.com/yk0w4g8au?key=318dcdbf0c7a95fc20a761b18bbb0ce2";
-
-    function showError(message) {
-      video.style.display = "none";
-      const errorDiv = document.createElement("div");
-      errorDiv.className = "video-error-msg";
-      errorDiv.innerText = message;
-      videoContainer.appendChild(errorDiv);
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+      });
     }
-
-    function loadVideo(extension = ".mp4") {
-      if (!VIDEO_ID) {
-        showError("ID video tidak ditemukan. Gunakan format URL: ?id=KODE_VIDEO");
-        return;
-      }
-      const source = baseUrl + VIDEO_ID + extension;
-      video.src = source;
-      video.load();
-    }
-
-    if (VIDEO_ID) {
-      loadVideo(".mp4");
-      video.onloadedmetadata = () => {
-        downloadBtn.href = video.src;
-        downloadBtn.style.display = "inline-flex";
-      };
-      video.onerror = () => {
-        if (!video.dataset.triedFallback) {
-          video.dataset.triedFallback = "true";
-          loadVideo(".mov");
-        } else {
-          showError("Video tidak ditemukan atau format tidak didukung.");
-          downloadBtn.style.display = "none";
-        }
-      };
-    } else {
-      showError("Silakan masukkan ID Video pada parameter URL.");
-    }
-
-    downloadBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const realVideoUrl = video.src;
-      if (!realVideoUrl) return;
-      window.open(ADSTERRA_DIRECT_LINK, "_blank");
-      const a = document.createElement("a");
-      a.href = realVideoUrl;
-      a.download = VIDEO_ID + ".mp4";
-      document.body.appendChild(a);
-      setTimeout(() => {
-        a.click();
-        document.body.removeChild(a);
-      }, 800);
-    });
-
-    shareBtn.addEventListener("click", () => {
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => {
-          shareBtn.innerText = "✅ Tautan Disalin!";
-          setTimeout(() => {
-            shareBtn.innerText = "🔗 Bagikan Tautan";
-          }, 2000);
-        })
-        .catch(() => {
-          alert("Gagal menyalin tautan otomatis.");
-        });
-    });
   </script>
 
-  <script type="text/javascript">
-    var _Hasync = _Hasync || [];
-    _Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
-    _Hasync.push(['Histats.fasi', '1']);
-    _Hasync.push(['Histats.track_hits', '']);
-    (function() {
-      var hs = document.createElement('script');
-      hs.type = 'text/javascript';
-      hs.async = true;
-      hs.src = ('//s10.histats.com/js15_as.js');
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-    })();
-  </script>
-  <noscript>
-    <a href="/" target="_blank">
-      <img src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0">
-    </a>
-  </noscript>
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
 </body>
 </html>
