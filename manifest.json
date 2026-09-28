@@ -9,7 +9,7 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://videy.co/favicon.ico",
+      "src": "/favicon.ico",
       "type": "image/png",
       "sizes": "512x512"
     }
