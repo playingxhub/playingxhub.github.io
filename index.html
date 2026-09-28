@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watch On Mirnalagi87</title>
   <meta name="description" content="Watch video on Mirnalagi87 - fast and clean player">
+  
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#F9FAFB">
 
   <link rel="preconnect" href="https://commandsister.com">
-  <link rel="preconnect" href="https://cdn2.videy.co">
+  <link rel="preconnect" href="https://videy.co">
 
   <style>
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     :root {
       --bg: #F9FAFB;
       --surface: #FFFFFF;
@@ -26,12 +27,7 @@
       --hairline: #E5E7EB;
       --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-
-    html,
-    body {
-      background: var(--bg);
-    }
-
+    html, body { background: var(--bg); }
     body {
       font-family: var(--font);
       color: var(--text);
@@ -40,12 +36,7 @@
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    
+    a { color: inherit; text-decoration: none; }
     .hdr {
       width: 100%;
       border-bottom: 1px solid var(--hairline);
@@ -54,14 +45,12 @@
       top: 0;
       z-index: 10;
     }
-
     .wrap {
       width: 100%;
       max-width: 1152px;
       margin: 0 auto;
       padding: 0 24px;
     }
-
     .hdr-row {
       display: flex;
       align-items: center;
@@ -69,8 +58,6 @@
       padding: 14px 0;
       font-weight: 600;
     }
-
-    /* Ad Wrappers - Anti CLS */
     .ad-top {
       width: 100%;
       display: flex;
@@ -81,7 +68,6 @@
       border-bottom: 1px solid var(--hairline);
       padding: 5px 0;
     }
-
     .ad-native-wrap {
       width: 100%;
       max-width: 420px;
@@ -92,7 +78,6 @@
       padding: 12px;
       overflow: hidden;
     }
-
     .ad-label {
       font-size: 11px;
       letter-spacing: .08em;
@@ -100,7 +85,6 @@
       text-transform: uppercase;
       margin-bottom: 8px;
     }
-
     .main {
       flex: 1;
       width: 100%;
@@ -108,7 +92,6 @@
       margin: 0 auto;
       padding: 16px 16px 0;
     }
-
     .player {
       position: relative;
       width: 100%;
@@ -121,7 +104,6 @@
       overflow: hidden;
       box-shadow: 0 10px 36px rgba(11, 18, 32, .18);
     }
-
     .video {
       display: block;
       width: 100%;
@@ -129,7 +111,6 @@
       object-fit: contain;
       background: #000;
     }
-
     .watch-meta-top {
       display: flex;
       align-items: flex-start;
@@ -137,18 +118,13 @@
       gap: 12px;
       margin: 12px 0 6px;
     }
-
     .vmeta {
       opacity: .7;
       margin: 0;
       font-size: 14px;
       display: none;
     }
-
-    body.is-admin .vmeta {
-      display: block;
-    }
-
+    body.is-admin .vmeta { display: block; }
     .ftr {
       margin-top: 32px;
       padding: 24px 32px 28px;
@@ -158,36 +134,14 @@
       gap: 28px;
       font-size: 14px;
     }
-
-    .ftr a {
-      color: var(--muted);
-    } 
-    
-    .ftr a:hover {
-      color: var(--text);
-    }
+    .ftr a { color: var(--muted); } 
+    .ftr a:hover { color: var(--text); }
 
     @media(max-width: 580px) {
-      .main {
-        padding: 10px 0 0;
-        max-width: 100%;
-      }
-      .player {
-        max-width: 100%;
-        border-radius: 0;
-        max-height: 86vh;
-      }
-      .ad-native-wrap {
-        border-radius: 0;
-        border-left: 0;
-        border-right: 0;
-        max-width: 100%;
-      }
-      .ftr {
-        padding: 20px 16px;
-        gap: 22px;
-        font-size: 13px;
-      }
+      .main { padding: 10px 0 0; max-width: 100%; }
+      .player { max-width: 100%; border-radius: 0; max-height: 86vh; }
+      .ad-native-wrap { border-radius: 0; border-left: 0; border-right: 0; max-width: 100%; }
+      .ftr { padding: 20px 16px; gap: 22px; font-size: 13px; }
     }
   </style>
 </head>
@@ -199,7 +153,6 @@
     </div>
   </header>
 
-  <!-- TOP BANNER 320x50 - Viewable & Centered -->
   <div class="ad-top">
     <div id="ad-320x50">
       <script>
@@ -211,7 +164,7 @@
           'params' : {}
         };
       </script>
-      <script src="https://commandsister.com/795ea17fd712c54274f94240a2ee1152/invoke.js"></script>
+      <script src="https://commandsister.com"></script>
     </div>
   </div>
 
@@ -228,7 +181,7 @@
 
     <div class="ad-native-wrap">
       <div class="ad-label">Sponsored</div>
-      <script async="async" data-cfasync="false" src="https://commandsister.com/4ae3afb5944db27871dfab89559982f9/invoke.js"></script>
+      <script async="async" data-cfasync="false" src="https://commandsister.com"></script>
       <div id="container-4ae3afb5944db27871dfab89559982f9"></div>
     </div>
   </main>
@@ -239,20 +192,18 @@
     <a href="#">Privacy</a>
   </footer>
 
-  <!-- Video Logic Script -->
   <script>
     (function () {
       const params = new URLSearchParams(location.search);
       const srcParam = params.get('src') || '';
       const vid = params.get('v') || params.get('id') || '';
       const isId = /^[A-Za-z0-9]{6,32}$/.test(vid);
-      const CDN = 'https://cdn2.videy.co/';
+      const CDN = 'https://videy.co/';
       const video = document.getElementById('video');
       if (!video) return;
 
       let videoUrl = '';
       if (/^https?:\/\//i.test(srcParam)) {
-        // hanya izinkan https dan cegah blob/data uri
         try {
           const u = new URL(srcParam);
           if (u.protocol === 'https:') videoUrl = u.href;
@@ -275,26 +226,28 @@
       });
     })();
   </script>
+
+  <!-- Pendaftaran Service Worker untuk Kecepatan Loading PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker terdaftar!', reg))
+          .catch(err => console.log('Gagal mendaftarkan Service Worker', err));
+      });
+    }
+  </script>
   
-  <!-- Histats Tracking Script -->
   <script type="text/javascript">
     var _Hasync = _Hasync || [];
     _Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
     _Hasync.push(['Histats.fasi', '1']);
     _Hasync.push(['Histats.track_hits', '']);
     (function() {
-      var hs = document.createElement('script'); 
-      hs.type = 'text/javascript'; 
-      hs.async = true;
-      hs.src = ('//s10.histats.com/js15_as.js');
+      var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+      hs.src = ('//://histats.com');
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
     })();
   </script>
-  <noscript>
-    <a href="/" target="_blank">
-      <img src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0">
-    </a>
-  </noscript>
-
 </body>
 </html>
